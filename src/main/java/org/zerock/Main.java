@@ -6,9 +6,9 @@ import java.util.Scanner;
 
 public class Main {
     public static void main(String[] args) {
-        Scanner input = new Scanner(System.in);
+        Scanner scanner = new Scanner(System.in);
         List<Product> products = new ArrayList<Product>();
-        int menu;
+        CommerceSystem commerceSystem = new CommerceSystem(products, scanner);
 
         Product product1 = new Product("Galaxy S25", 1200000, "최신 안드로이드 스마트폰", 5);
         Product product2 = new Product("iPhone 16", 1350000, "Apple의 최신 스마트폰", 4);
@@ -20,16 +20,6 @@ public class Main {
         products.add(product3);
         products.add(product4);
 
-        System.out.println("[ 실시간 커머스 플랫폼 - 전자제품 ]");
-        for(int i = 0; i < products.size(); i++) {
-            Product p = products.get(i);
-            System.out.println((i+1) + ". " + p.getName() + "   | " + p.getPrice() + "원 | " + p.getDescription());
-        }
-        System.out.println("0. 종료   |프로그램 종료");
-
-        menu = input.nextInt();
-        if(menu == 0){
-            System.out.println("커머스 플랫폼을 종료합니다.");
-        }
+        commerceSystem.start();
     }
 }
