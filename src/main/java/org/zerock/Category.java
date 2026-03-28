@@ -4,33 +4,23 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Category {
-    private List<Product> Electronics;
-    private List<Product> Clothes;
-    private List<Product> Groceries;
+    private List<Product> products =  new ArrayList<>();
+    private String categoryName;
 
-    Category(){
-        Electronics = new ArrayList<>();
-        Clothes = new ArrayList<>();
-        Groceries = new ArrayList<>();
+    public Category(String categoryName) {
+        this.categoryName = categoryName;
     }
 
-    public void addElectronics(Product product) {
-        Electronics.add(product);
-    }
-    public void addClothes(Product product) {
-        Clothes.add(product);
-    }
-    public void addGroceries(Product product) {
-        Groceries.add(product);
+    public String getName() {
+        return categoryName;
     }
 
-    public  List<Product> getElectronics() {
-        return Electronics;
+    public void addProduct(Product product) {
+        products.add(product);
     }
-    public List<Product> getClothes() {
-        return Clothes;
+    public List<Product> getProducts() {
+        return products;
     }
-    public List<Product> getGroceries() {
-        return Groceries;
-    }
+
+
 }

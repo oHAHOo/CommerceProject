@@ -1,8 +1,5 @@
 package org.zerock;
 
-import java.util.ArrayList;
-import java.util.List;
-
 public class Product {
 
     private String name; //상품명
