@@ -1,5 +1,7 @@
 package org.zerock;
 
+import org.zerock.shoppingCart.ShoppingCart;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
@@ -13,7 +15,8 @@ public class Main {
         Category groceries = new Category("식품");
 
         List<Category> categories = new ArrayList<>();
-        CommerceSystem commerceSystem = new CommerceSystem(categories, scanner);
+        ShoppingCart shoppingCart = new ShoppingCart();
+        CommerceSystem commerceSystem = new CommerceSystem(categories, shoppingCart, scanner);
 
         categories.add(electronics);
         categories.add(clothes);
@@ -39,15 +42,15 @@ public class Main {
         clothes.addProduct(clothes3);
         clothes.addProduct(clothes4);
 
-        Product food1 = new Product("사과 1kg", 8000, "신선한 국내산 사과", 30);
-        Product food2 = new Product("우유 1L", 2500, "고소한 일반 우유", 25);
-        Product food3 = new Product("계란 30구", 9000, "신선한 대란", 20);
-        Product food4 = new Product("즉석밥 6개입", 12000, "간편하게 먹는 즉석밥", 18);
+        Product groceries1 = new Product("사과 1kg", 8000, "신선한 국내산 사과", 30);
+        Product groceries2 = new Product("우유 1L", 2500, "고소한 일반 우유", 25);
+        Product groceries3 = new Product("계란 30구", 9000, "신선한 대란", 20);
+        Product groceries4 = new Product("즉석밥 6개입", 12000, "간편하게 먹는 즉석밥", 18);
 
-        groceries.addProduct(food1);
-        groceries.addProduct(food2);
-        groceries.addProduct(food3);
-        groceries.addProduct(food4);
+        groceries.addProduct(groceries1);
+        groceries.addProduct(groceries2);
+        groceries.addProduct(groceries3);
+        groceries.addProduct(groceries4);
 
         commerceSystem.start();
     }
