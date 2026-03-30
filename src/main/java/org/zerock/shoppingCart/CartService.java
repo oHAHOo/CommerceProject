@@ -46,7 +46,7 @@ public class CartService {
         System.out.println(product.getName() + "가 장바구니에 추가되었습니다.");
     }
 
-    public void printCart(ShoppingCart shoppingCart) {
+    public void printCart() {
         totalPrice = 0;
         if (shoppingCart.getCartItems().isEmpty()) {
             System.out.println("장바구니가 비어 있습니다.");
@@ -67,7 +67,7 @@ public class CartService {
         System.out.println(totalPrice + "원");
     }
 
-    public void order(ShoppingCart shoppingCart) {
+    public void order() {
         System.out.println("주문이 완료됐습니다! 총 금액: " + totalPrice + "원");
         for (CartItem cartItem : shoppingCart.getCartItems()) {
             Product product = cartItem.getProduct();

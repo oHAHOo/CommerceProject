@@ -106,12 +106,12 @@ public class CommerceSystem {
             //4,5,6번 메뉴
             switch (selectedMenu) {
                 case 4: {
-                    cartService.printCart(shoppingCart);
+                    cartService.printCart();
                     System.out.println("1. 주문 확정    2. 메인으로 돌아가기");
                     selectedOrderMenu = scanner.nextInt();
                     switch (selectedOrderMenu) {
                         case 1: {
-                            cartService.order(shoppingCart);
+                            cartService.order();
                             continue;
                         }
                         case 2: continue;
