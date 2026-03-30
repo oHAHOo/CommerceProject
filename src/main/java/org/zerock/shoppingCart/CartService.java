@@ -2,11 +2,30 @@ package org.zerock.shoppingCart;
 
 import org.zerock.Product;
 
+import java.util.Scanner;
+
 public class CartService {
+    private Scanner scanner;
     private int totalPrice;
     private int quantity;
+    private ShoppingCart shoppingCart;
 
-    public void addCartItem(ShoppingCart shoppingCart, Product product) {
+    public CartService(ShoppingCart shoppingCart, Scanner scanner) {
+        this.shoppingCart = shoppingCart;
+        this.scanner = scanner;
+    }
+
+    public void addCartItem(Product product) {
+        System.out.println("위 상품을 장바구니에 추가하시겠습니까?");
+        System.out.println("1. 확인    2. 취소");
+
+        int addToCart = scanner.nextInt();
+
+        if (addToCart != 1) {
+            System.out.println("취소되었습니다.");
+            return;
+        }
+
         if (product.getQuantity() == 0) {
             System.out.println("재고가 부족합니다.");
             return;
