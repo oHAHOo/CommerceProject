@@ -15,10 +15,7 @@ public class CommerceSystem {
     private Admin admin;
     private int selectedMenu;
     private int selectedProductNumber;
-
-
     private boolean authority;
-
 
     public CommerceSystem(List<Category> categories, ShoppingCart shoppingCart, Scanner scanner, CartService cartService, Admin admin) {
         this.scanner = scanner;
@@ -65,23 +62,6 @@ public class CommerceSystem {
         return selectedProductNumber;
     }
 
-    private boolean authenticateAdmin() {
-        for (int i = 0; i < 3; i++) {
-            System.out.println("관리자 비밀번호를 입력해주세요:");
-            String password = scanner.next();
-
-            if (admin.checkAdmin(password)) {
-                return true;
-            }
-
-            System.out.println("비밀번호가 일치하지 않습니다.");
-        }
-
-        System.out.println("비밀번호 3회 입력 실패로 메인 메뉴로 돌아갑니다.");
-        return false;
-    }
-
-
     public void start() {
         while(true) {
             selectedMenu = selectMenu();
@@ -127,6 +107,8 @@ public class CommerceSystem {
                 }
                 case 5: {
                     //주문 취소
+                    System.out.println("장바구니를 비웠습니다.");
+                    shoppingCart.getCartItems().clear();
                     continue;
                 }
                 case 6: {
