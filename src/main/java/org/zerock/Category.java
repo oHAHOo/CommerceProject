@@ -7,9 +7,9 @@ public class Category {
     private List<Product> products;
     private String categoryName;
 
-    public Category(String categoryName, List<Product> products) {
+    public Category(String categoryName) {
         this.categoryName = categoryName;
-        this.products = products;
+        this.products = new ArrayList<>();
     }
 
     public String getName() {
@@ -20,7 +20,29 @@ public class Category {
         products.add(product);
     }
 
+    public void removeProduct(Product product) {
+        products.remove(product);
+    }
+
     public List<Product> getProducts() {
         return products;
+    }
+
+    public boolean hasProductName(String productName) {
+        for (Product product : products) {
+            if (product.getName().equals(productName)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public Product findProductByName(String productName) {
+        for (Product product : products) {
+            if (product.getName().equals(productName)) {
+                return product;
+            }
+        }
+        return null;
     }
 }

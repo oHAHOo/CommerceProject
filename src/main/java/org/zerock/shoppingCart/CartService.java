@@ -68,15 +68,27 @@ public class CartService {
     }
 
     public void order() {
-        System.out.println("주문이 완료됐습니다! 총 금액: " + totalPrice + "원");
-        for (CartItem cartItem : shoppingCart.getCartItems()) {
-            Product product = cartItem.getProduct();
-            quantity = cartItem.getQuantity();
-            System.out.print(product.getName() + "재고가 " + product.getQuantity() +
-                    "개 -> ");
-            product.reduceQuantity(quantity);
-            System.out.println(product.getQuantity() + "개로 업데이트되었습니다.");
+        System.out.println("1. 주문 확정    2. 메인으로 돌아가기");
+        int selectedOrderMenu = scanner.nextInt();
+        switch (selectedOrderMenu) {
+            case 1: {
+                System.out.println("주문이 완료됐습니다! 총 금액: " + totalPrice + "원");
+                for (CartItem cartItem : shoppingCart.getCartItems()) {
+                    Product product = cartItem.getProduct();
+                    quantity = cartItem.getQuantity();
+                    System.out.print(product.getName() + "재고가 " + product.getQuantity() +
+                            "개 -> ");
+                    product.reduceQuantity(quantity);
+                    System.out.println(product.getQuantity() + "개로 업데이트되었습니다.");
+                }
+                shoppingCart.getCartItems().clear();
+                return;
+            }
+            case 2: return;
+            default: {
+                System.out.println("잘못된 입력입니다.");
+                return;
+            }
         }
-        shoppingCart.getCartItems().clear();
     }
 }
