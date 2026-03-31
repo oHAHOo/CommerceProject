@@ -1,17 +1,51 @@
 package org.zerock;
 
-//TIP 코드를 <b>실행</b>하려면 <shortcut actionId="Run"/>을(를) 누르거나
-// 에디터 여백에 있는 <icon src="AllIcons.Actions.Execute"/> 아이콘을 클릭하세요.
+import org.zerock.Admin.Admin;
+import org.zerock.shoppingCart.CartService;
+import org.zerock.shoppingCart.ShoppingCart;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Scanner;
+
 public class Main {
     public static void main(String[] args) {
-        //TIP 캐럿을 강조 표시된 텍스트에 놓고 <shortcut actionId="ShowIntentionActions"/>을(를) 누르면
-        // IntelliJ IDEA이(가) 수정을 제안하는 것을 확인할 수 있습니다.
-        System.out.printf("Hello and welcome!");
+        Scanner scanner = new Scanner(System.in);
 
-        for (int i = 1; i <= 5; i++) {
-            //TIP <shortcut actionId="Debug"/>을(를) 눌러 코드 디버그를 시작하세요. 1개의 <icon src="AllIcons.Debugger.Db_set_breakpoint"/> 중단점을 설정해 드렸습니다
-            // 언제든 <shortcut actionId="ToggleLineBreakpoint"/>을(를) 눌러 중단점을 더 추가할 수 있습니다.
-            System.out.println("i = " + i);
-        }
+        List<Product> electronicsProducts = List.of(
+                new Product("Galaxy S25", 1200000, "최신 안드로이드 스마트폰", 5),
+                new Product("iPhone 16", 1350000, "Apple의 최신 스마트폰", 4),
+                new Product("MacBook Pro", 2400000, "M3 칩셋이 탑재된 노트북", 5),
+                new Product("AirPods Pro", 350000, "노이즈 캔슬링 무선 이어폰", 7)
+        );
+
+        List<Product> clothesProducts = List.of(
+                new Product("오버핏 티셔츠", 29000, "편안한 착용감의 기본 티셔츠", 20),
+                new Product("슬림핏 청바지", 59000, "스타일리시한 데님 팬츠", 15),
+                new Product("후드 집업", 49000, "간절기에 입기 좋은 아우터", 10),
+                new Product("패딩 점퍼", 129000, "겨울용 보온 아우터", 8)
+        );
+
+        List<Product> groceriesProducts = List.of(
+                new Product("사과 1kg", 8000, "신선한 국내산 사과", 30),
+                new Product("우유 1L", 2500, "고소한 일반 우유", 25),
+                new Product("계란 30구", 9000, "신선한 대란", 20),
+                new Product("즉석밥 6개입", 12000, "간편하게 먹는 즉석밥", 18)
+        );
+
+        Category electronics = new Category("전자제품", electronicsProducts);
+        Category clothes = new Category("의류", clothesProducts);
+        Category groceries = new Category("식품", groceriesProducts);
+
+        List<Category> categories = List.of(electronics, clothes, groceries);
+
+        ShoppingCart shoppingCart = new ShoppingCart();
+        CartService cartService = new CartService(shoppingCart, scanner);
+        Admin admin = new Admin();
+
+        CommerceSystem commerceSystem =
+                new CommerceSystem(categories, shoppingCart, scanner, cartService, admin);
+
+        commerceSystem.start();
     }
 }
