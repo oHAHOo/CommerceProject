@@ -1,7 +1,6 @@
 package org.zerock;
 
 import org.zerock.shoppingCart.CartService;
-import org.zerock.shoppingCart.ShoppingCart;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -34,12 +33,10 @@ public class Main {
         categories.add(clothes);
         categories.add(groceries);
 
-        ShoppingCart shoppingCart = new ShoppingCart();
-        CartService cartService = new CartService(shoppingCart, scanner);
-        Admin admin = new Admin();
+        CartService cartService = new CartService(scanner);
+        AdminService adminService = new AdminService(categories, scanner);
 
-        CommerceSystem commerceSystem =
-                new CommerceSystem(categories, shoppingCart, scanner, cartService, admin);
+        CommerceSystem commerceSystem = new CommerceSystem(categories, scanner, cartService, adminService);
 
         commerceSystem.start();
     }
