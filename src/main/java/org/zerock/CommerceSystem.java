@@ -97,6 +97,10 @@ public class CommerceSystem {
 
                             int adminMenu = Integer.parseInt(scanner.nextLine());
 
+                            if (adminMenu == 0) {
+                                break;
+                            }
+
                             switch (adminMenu) {
                                 case 1:
                                     adminService.addProductByAdmin();
@@ -110,8 +114,6 @@ public class CommerceSystem {
                                 case 4:
                                     adminService.printAllProducts();
                                     break;
-                                case 0:
-
                                 default:
                                     System.out.println("잘못된 입력입니다.");
                             }
