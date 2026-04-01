@@ -44,7 +44,7 @@ public class CommerceSystem {
                 List<Product> products = selectedCategory.getProducts();
 
                 if(selectedProductNumber == 0) {continue;}
-                if(selectedProductNumber > products.size()) {
+                if(selectedProductNumber < 0 || selectedProductNumber > products.size()) {
                     System.out.println("존재하지 않는 상품입니다.");
                     continue;
                 }
@@ -95,7 +95,13 @@ public class CommerceSystem {
                             System.out.println("4. 전체 상품 현황");
                             System.out.println("0. 메인으로 돌아가기");
 
-                            int adminMenu = Integer.parseInt(scanner.nextLine());
+                            int adminMenu;
+                            try {
+                                adminMenu = Integer.parseInt(scanner.nextLine().trim());
+                            } catch (NumberFormatException e) {
+                                System.out.println("숫자를 입력해주세요.");
+                                continue;
+                            }
 
                             if (adminMenu == 0) {
                                 break;
@@ -138,10 +144,14 @@ public class CommerceSystem {
         }
         System.out.println("6. 관리자 모드");
 
-        selectedMenu = scanner.nextInt();
-        scanner.nextLine();
-
-        return selectedMenu;
+        while (true) {
+            try {
+                selectedMenu = Integer.parseInt(scanner.nextLine().trim());
+                return selectedMenu;
+            } catch (NumberFormatException e) {
+                System.out.println("숫자를 입력해주세요.");
+            }
+        }
     }
     private int selectProduct() {
         selectedCategory = categories.get(selectedMenu -1);
@@ -155,7 +165,13 @@ public class CommerceSystem {
         }
         System.out.println("0. 뒤로가기");
         //상품 선택
-        selectedProductNumber = scanner.nextInt();
-        return selectedProductNumber;
+        while (true) {
+            try {
+                selectedProductNumber = Integer.parseInt(scanner.nextLine().trim());
+                return selectedProductNumber;
+            } catch (NumberFormatException e) {
+                System.out.println("숫자를 입력해주세요.");
+            }
+        }
     }
 }

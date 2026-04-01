@@ -25,7 +25,13 @@ public class CartService {
         System.out.println("위 상품을 장바구니에 추가하시겠습니까?");
         System.out.println("1. 확인    2. 취소");
 
-        int addToCart = scanner.nextInt();
+        int addToCart;
+        try {
+            addToCart = Integer.parseInt(scanner.nextLine().trim());
+        } catch (NumberFormatException e) {
+            System.out.println("숫자를 입력해주세요.");
+            return;
+        }
 
         if (addToCart != 1) {
             System.out.println("취소되었습니다.");
@@ -75,7 +81,13 @@ public class CartService {
 
     public void order() {
         System.out.println("1. 주문 확정    2. 메인으로 돌아가기");
-        int selectedOrderMenu = scanner.nextInt();
+        int selectedOrderMenu;
+        try {
+            selectedOrderMenu = Integer.parseInt(scanner.nextLine().trim());
+        } catch (NumberFormatException e) {
+            System.out.println("숫자를 입력해주세요.");
+            return;
+        }
         switch (selectedOrderMenu) {
             case 1: {
                 System.out.println("고객 등급을 입력해주세요.");
@@ -84,7 +96,14 @@ public class CartService {
                 System.out.println("3. GOLD     : 10% 할인");
                 System.out.println("4. PLATINUM : 15% 할인");
 
-                int ratingNumber = scanner.nextInt();
+                int ratingNumber;
+                try {
+                    ratingNumber = Integer.parseInt(scanner.nextLine().trim());
+                } catch (NumberFormatException e) {
+                    System.out.println("숫자를 입력해주세요.");
+                    return;
+                }
+
                 Rating rating = Rating.fromCode(ratingNumber);
 
                 int discountPrice = totalPrice * rating.getDiscountPercent() / 100;
