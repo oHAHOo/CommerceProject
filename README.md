@@ -19,15 +19,24 @@
 ---
 
 ## 프로젝트 구조
-org.zerock
+org.zerock 
+
 ├── Main.java # 프로그램 실행
+
 ├── CommerceSystem.java # 전체 흐름 제어 (핵심 로직)
+
 ├── Product.java # 상품 엔티티
+
 ├── Category.java # 카테고리 관리
+
 ├── AdminService # 관리자 기능
+
 ├── Customer.java # 사용자 (확장용)
+
 ├── Rating.java # 고객 등급
+
 ├── CartItem.java # 장바구니 아이템
+
 └── CartService.java # 장바구니 로직
 
 
