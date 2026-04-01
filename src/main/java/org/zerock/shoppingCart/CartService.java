@@ -1,6 +1,7 @@
 package org.zerock.shoppingCart;
 
 import org.zerock.Product;
+import org.zerock.Rating;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -77,7 +78,23 @@ public class CartService {
         int selectedOrderMenu = scanner.nextInt();
         switch (selectedOrderMenu) {
             case 1: {
-                System.out.println("주문이 완료됐습니다! 총 금액: " + totalPrice + "원");
+                System.out.println("고객 등급을 입력해주세요.");
+                System.out.println("1. BRONZE   :  0% 할인");
+                System.out.println("2. SILVER   :  5% 할인");
+                System.out.println("3. GOLD     : 10% 할인");
+                System.out.println("4. PLATINUM : 15% 할인");
+
+                int ratingNumber = scanner.nextInt();
+                Rating rating = Rating.fromCode(ratingNumber);
+
+                int discountPrice = totalPrice * rating.getDiscountPercent() / 100;
+                int finalPrice = totalPrice - discountPrice;
+
+                System.out.println("주문이 완료되었습니다!");
+                System.out.println("할인 전 금액: " + totalPrice + "원");
+                System.out.println(rating + " 등급 할인(" + rating.getDiscountPercent() + "%): -" + discountPrice + "원");
+                System.out.println("최종 결제 금액: " + finalPrice + "원");
+
                 for (CartItem cartItem : getCartItems()) {
                     Product product = cartItem.getProduct();
                     quantity = cartItem.getQuantity();
