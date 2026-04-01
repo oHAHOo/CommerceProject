@@ -2,17 +2,22 @@ package org.zerock.shoppingCart;
 
 import org.zerock.Product;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Scanner;
 
 public class CartService {
     private Scanner scanner;
     private int totalPrice;
     private int quantity;
-    private ShoppingCart shoppingCart;
+    private List<CartItem> cartItems = new ArrayList<>();
 
-    public CartService(ShoppingCart shoppingCart, Scanner scanner) {
-        this.shoppingCart = shoppingCart;
+    public CartService(Scanner scanner) {
         this.scanner = scanner;
+    }
+
+    public List<CartItem> getCartItems() {
+        return cartItems;
     }
 
     public void addCartItem(Product product) {
@@ -31,7 +36,7 @@ public class CartService {
             return;
         }
 
-        for (CartItem cartItem : shoppingCart.getCartItems()) {
+        for (CartItem cartItem : getCartItems()) {
             if (cartItem.getProduct().equals(product)) {
                 if (cartItem.getQuantity() >= product.getQuantity()) {
                     System.out.println("재고가 부족합니다.");
@@ -42,25 +47,25 @@ public class CartService {
                 return;
             }
         }
-        shoppingCart.getCartItems().add(new CartItem(product));
+        getCartItems().add(new CartItem(product));
         System.out.println(product.getName() + "가 장바구니에 추가되었습니다.");
     }
 
     public void printCart() {
         totalPrice = 0;
-        if (shoppingCart.getCartItems().isEmpty()) {
+        if (getCartItems().isEmpty()) {
             System.out.println("장바구니가 비어 있습니다.");
             return;
         }
 
         System.out.println("[ 장바구니 내역 ]");
-        for (CartItem cartItem : shoppingCart.getCartItems()) {
+        for (CartItem cartItem : getCartItems()) {
             Product product = cartItem.getProduct();
             System.out.println(product.getName() + " | " +  product.getPrice() +
                     " | " + product.getDescription() + " | " +  cartItem.getQuantity());
         }
 
-        for (CartItem cartItem : shoppingCart.getCartItems()) {
+        for (CartItem cartItem : getCartItems()) {
             totalPrice+= cartItem.getTotalPrice();
         }
         System.out.println("[ 총 주문 금액 ]");
@@ -73,7 +78,7 @@ public class CartService {
         switch (selectedOrderMenu) {
             case 1: {
                 System.out.println("주문이 완료됐습니다! 총 금액: " + totalPrice + "원");
-                for (CartItem cartItem : shoppingCart.getCartItems()) {
+                for (CartItem cartItem : getCartItems()) {
                     Product product = cartItem.getProduct();
                     quantity = cartItem.getQuantity();
                     System.out.print(product.getName() + "재고가 " + product.getQuantity() +
@@ -81,7 +86,7 @@ public class CartService {
                     product.reduceQuantity(quantity);
                     System.out.println(product.getQuantity() + "개로 업데이트되었습니다.");
                 }
-                shoppingCart.getCartItems().clear();
+                getCartItems().clear();
                 return;
             }
             case 2: return;
