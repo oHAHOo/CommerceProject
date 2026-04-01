@@ -6,6 +6,7 @@ import org.zerock.Rating;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
+import java.util.stream.Collectors;
 
 public class CartService {
     private Scanner scanner;
@@ -56,6 +57,22 @@ public class CartService {
         }
         getCartItems().add(new CartItem(product));
         System.out.println(product.getName() + "가 장바구니에 추가되었습니다.");
+    }
+
+    public void removeProductByName(String productName) {
+        List<CartItem> searchedCartItems = cartItems.stream()
+                .filter(cartItem -> !cartItem.getProduct().getName().equals(productName))
+                .collect(Collectors.toList());
+
+        if (searchedCartItems.size() == cartItems.size()) {
+            System.out.println("장바구니에 해당 상품이 없습니다.");
+            return;
+        }
+
+        cartItems.clear();
+        cartItems.addAll(searchedCartItems);
+
+        System.out.println(productName + " 상품이 장바구니에서 제거되었습니다.");
     }
 
     public void printCart() {

@@ -4,6 +4,7 @@ import org.zerock.shoppingCart.CartService;
 
 import java.util.List;
 import java.util.Scanner;
+import java.util.stream.IntStream;
 
 public class CommerceSystem {
     private List<Category> categories;
@@ -40,19 +41,8 @@ public class CommerceSystem {
             //1~3번 메뉴
             if (selectedMenu >= 1 && selectedMenu <=3) {
                 //1~3번 고를시
-                selectedProductNumber = selectProduct();
-                List<Product> products = selectedCategory.getProducts();
-
-                if(selectedProductNumber == 0) {continue;}
-                if(selectedProductNumber < 0 || selectedProductNumber > products.size()) {
-                    System.out.println("존재하지 않는 상품입니다.");
-                    continue;
-                }
-                //선택한 상품 출력
-                Product product = products.get(selectedProductNumber - 1);
-                System.out.println("\n선택한 상품: " + product.getName() + " | " + product.getPrice() + " | "
-                        +  product.getDescription() + " | 재고: " + product.getQuantity() + "개");
-                cartService.addCartItem(product);
+                selectProduct();
+                continue;
             }
 
             //4,5,6번 메뉴
@@ -63,10 +53,14 @@ public class CommerceSystem {
                     break;
                 }
                 case 5: {
-                    //주문 취소
-                    System.out.println("장바구니를 비웠습니다.");
-                    cartService.getCartItems().clear();
-                    continue;
+                    cartService.printCart();
+                    if (cartService.getCartItems().isEmpty()) {
+                        break;
+                    }
+                    System.out.print("제거할 상품명을 입력하세요: ");
+                    String productName = scanner.nextLine().trim();
+                    cartService.removeProductByName(productName);
+                    break;
                 }
                 case 6: {//관리자 메뉴
                     if (authority == false){
@@ -157,21 +151,83 @@ public class CommerceSystem {
         selectedCategory = categories.get(selectedMenu -1);
         List<Product> products = selectedCategory.getProducts();
 
-        //선택 카테고리 출력
-        System.out.println("\n[ " +  selectedCategory.getName() + " 카테고리 ]");
-        for(int i = 0; i < products.size(); i++) {
-            Product product = products.get(i);
-            System.out.println((i+1) + ". " + product.getName() + "   | " + product.getPrice() + "원 | " + product.getDescription());
+
+        System.out.println("\n[ " + selectedCategory.getName() + " 카테고리 ]");
+        System.out.println("1. 전체 상품 보기");
+        System.out.println("2. 가격대별 필터링 (100만원 이하)");
+        System.out.println("3. 가격대별 필터링 (100만원 초과)");
+        System.out.println("0. 뒤로가기");
+
+        int filterMenu;
+        while (true) {
+            try {
+                filterMenu = Integer.parseInt(scanner.nextLine().trim());
+                break;
+            } catch (NumberFormatException e) {
+                System.out.println("숫자를 입력해주세요.");
+            }
+        }
+
+        List<Product> filteredProducts;
+        switch (filterMenu) {
+            case 1:
+                System.out.println("\n[ 전체 상품 목록 ]");
+                filteredProducts = products;
+                break;
+            case 2:
+                System.out.println("\n[ 100만원 이하 상품 목록 ]");
+                filteredProducts = products.stream().filter(product -> product.getPrice() <= 1000000).toList();
+                break;
+            case 3:
+                System.out.println("\n[ 100만원 초과 상품 목록 ]");
+                filteredProducts = products.stream().filter(product -> product.getPrice() > 1000000).toList();
+                break;
+            case 0:
+                return 0;
+            default:
+                System.out.println("잘못된 입력입니다.");
+                return 0;
+        }
+        if (filteredProducts.isEmpty()) {
+            System.out.println("조건에 맞는 상품이 없습니다");
+            return 0;
+        }
+
+        for (int i = 0; i < filteredProducts.size(); i++) {
+            Product product = filteredProducts.get(i);
+            System.out.println((i + 1) + ". " + product.getName() + " | "
+                    + product.getPrice() + "원 | " + product.getDescription()
+                    + " | 재고: " + product.getQuantity() + "개");
         }
         System.out.println("0. 뒤로가기");
         //상품 선택
         while (true) {
             try {
                 selectedProductNumber = Integer.parseInt(scanner.nextLine().trim());
-                return selectedProductNumber;
+                break;
             } catch (NumberFormatException e) {
                 System.out.println("숫자를 입력해주세요.");
             }
         }
+
+        if (selectedProductNumber == 0) {
+            return 0;
+        }
+
+        if (selectedProductNumber < 0 || selectedProductNumber > filteredProducts.size()) {
+            System.out.println("존재하지 않는 상품입니다.");
+            return 0;
+        }
+
+        Product selectedProduct = filteredProducts.get(selectedProductNumber - 1);
+
+        System.out.println("\n선택한 상품: " + selectedProduct.getName() + " | "
+                + selectedProduct.getPrice() + "원 | "
+                + selectedProduct.getDescription() + " | 재고: "
+                + selectedProduct.getQuantity() + "개");
+
+        cartService.addCartItem(selectedProduct);
+        return selectedProductNumber;
     }
+
 }
