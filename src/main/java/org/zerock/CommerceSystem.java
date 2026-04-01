@@ -4,7 +4,6 @@ import org.zerock.shoppingCart.CartService;
 
 import java.util.List;
 import java.util.Scanner;
-import java.util.stream.IntStream;
 
 public class CommerceSystem {
     private List<Category> categories;
