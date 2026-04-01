@@ -29,4 +29,16 @@ public class Product {
     public void reduceQuantity(int quantity) {
         this.quantity -= quantity;
     }
+
+    public void setPrice(int price) {
+        this.price = price;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public void setQuantity(int quantity) {
+        this.quantity = quantity;
+    }
 }
