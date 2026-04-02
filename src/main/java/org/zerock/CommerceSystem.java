@@ -1,19 +1,18 @@
 package org.zerock;
 
-import org.zerock.shoppingCart.CartService;
-
 import java.util.List;
 import java.util.Scanner;
 
+//커머스 시스템 클래스
 public class CommerceSystem {
-    private List<Category> categories;
+    private List<Category> categories; //카테고리 리스트
     private Scanner scanner;
-    private Category selectedCategory;
+    private Category selectedCategory; //선택된 카테고리
     private CartService cartService;
     private AdminService adminService;
 
-    private int selectedMenu;
-    private int selectedProductNumber;
+    private int selectedMenu; //선택된 메뉴
+    private int selectedProductNumber; //선택된 상품
     private boolean authority;
 
     public CommerceSystem(List<Category> categories, Scanner scanner, CartService cartService, AdminService adminService) {
@@ -22,36 +21,35 @@ public class CommerceSystem {
         this.cartService = cartService;
         this.adminService = adminService;
     }
-
+    //프로그램 시작 메서드
     public void start() {
         while (true) {
             selectedMenu = selectMenu();
-
+            //프로그램 종료
             if (selectedMenu == 0) {
                 System.out.println("커머스 플랫폼을 종료합니다.");
                 break;
             }
+            //장바구니가 비어있을때 4,5번 선택시
             if ((selectedMenu == 4 || selectedMenu == 5) && cartService.getCartItems().isEmpty()) {
                 System.out.println("존재하지 않는 메뉴입니다.");
                 continue;
-                //장바구니가 비었으니까 예외처리
             }
 
             //1~3번 메뉴
             if (selectedMenu >= 1 && selectedMenu <=3) {
-                //1~3번 고를시
                 selectProduct();
                 continue;
             }
 
             //4,5,6번 메뉴
             switch (selectedMenu) {
-                case 4: {
+                case 4: {//장바구니 출력, 주문
                     cartService.printCart();
                     cartService.order();
                     break;
                 }
-                case 5: {
+                case 5: {//장바구니 상품 제거
                     cartService.printCart();
                     if (cartService.getCartItems().isEmpty()) {
                         break;
@@ -72,7 +70,7 @@ public class CommerceSystem {
                                 break;
                             }
                             System.out.println("비밀번호가 일치하지 않습니다.");                        }
-
+                        //3회 실패하면 메인으로
                         if(authority == false) {
                             System.out.println("비밀번호 3회 입력 실패로 메인 메뉴로 돌아갑니다.");
                             break;
@@ -101,16 +99,16 @@ public class CommerceSystem {
                             }
 
                             switch (adminMenu) {
-                                case 1:
+                                case 1://상품 추가
                                     adminService.addProductByAdmin();
                                     break;
-                                case 2:
+                                case 2://상품 수정
                                     adminService.updateProductByAdmin();
                                     break;
-                                case 3:
+                                case 3://상품 삭제
                                     adminService.deleteProductByAdmin();
                                     break;
-                                case 4:
+                                case 4://모든 상품 출력
                                     adminService.printAllProducts();
                                     break;
                                 default:
@@ -122,14 +120,16 @@ public class CommerceSystem {
             }
         }
     }
-
+    //메인 메뉴 출력 메서드
     private int selectMenu() {
         System.out.println("\n[ 실시간 커머스 플랫폼 메인]");
+        //카테고리 출력
         for(int i = 0; i < categories.size(); i++) {
             Category category = categories.get(i);
             System.out.println(i+1 + ". " + category.getName());
         }
         System.out.println("0. 종료   |프로그램 종료\n");
+        //장바구니에 상품이 존재하면 출력
         if(!cartService.getCartItems().isEmpty()){
             System.out.println("[ 주문 관리 ]");
             System.out.println("4. 장바구니 확인  | 장바구니를 확인 후 주문합니다.");
@@ -146,11 +146,12 @@ public class CommerceSystem {
             }
         }
     }
+    //상품 선택 메서드
     private int selectProduct() {
+
         selectedCategory = categories.get(selectedMenu -1);
         List<Product> products = selectedCategory.getProducts();
-
-
+        //선택한 카테고리 출력
         System.out.println("\n[ " + selectedCategory.getName() + " 카테고리 ]");
         System.out.println("1. 전체 상품 보기");
         System.out.println("2. 가격대별 필터링 (100만원 이하)");
@@ -166,7 +167,7 @@ public class CommerceSystem {
                 System.out.println("숫자를 입력해주세요.");
             }
         }
-
+        //필터 적용 메뉴
         List<Product> filteredProducts;
         switch (filterMenu) {
             case 1:
@@ -191,7 +192,7 @@ public class CommerceSystem {
             System.out.println("조건에 맞는 상품이 없습니다");
             return 0;
         }
-
+        //상품 목록 출력
         for (int i = 0; i < filteredProducts.size(); i++) {
             Product product = filteredProducts.get(i);
             System.out.println((i + 1) + ". " + product.getName() + " | "
@@ -212,14 +213,13 @@ public class CommerceSystem {
         if (selectedProductNumber == 0) {
             return 0;
         }
-
+        //상품이 없을 경우
         if (selectedProductNumber < 0 || selectedProductNumber > filteredProducts.size()) {
             System.out.println("존재하지 않는 상품입니다.");
             return 0;
         }
-
+        //선택한 상품 출력
         Product selectedProduct = filteredProducts.get(selectedProductNumber - 1);
-
         System.out.println("\n선택한 상품: " + selectedProduct.getName() + " | "
                 + selectedProduct.getPrice() + "원 | "
                 + selectedProduct.getDescription() + " | 재고: "
