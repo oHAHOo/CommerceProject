@@ -11,25 +11,26 @@ public enum Rating {
     GOLD(3,10),
     PLATINUM(4,15);
 
+    //등급번호와 Rating매칭
     private static final Map<Integer, Rating> BY_CODE = Arrays.stream(Rating.values())
             .collect(Collectors.toUnmodifiableMap(Rating::getRatingNumber, Function.identity()));
 
-    private final int ratingNumber;
-    private final int discountPercent;
+    private final int ratingNumber; //등급 번호
+    private final int discountPercent; //할인율
 
     Rating(int ratingNumber, int discountPercent) {
         this.ratingNumber = ratingNumber;
         this.discountPercent = discountPercent;
     }
-
+    //할인율 반환
     public int getDiscountPercent() {
         return discountPercent;
     }
-
+    //등급번호 반환
     public int getRatingNumber() {
         return ratingNumber;
     }
-
+    //등급번호로 Rating조회
     public static Rating fromCode(int ratingNumber) {
         Rating rating = BY_CODE.get(ratingNumber);
         if (rating == null) {
